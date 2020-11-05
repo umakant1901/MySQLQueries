@@ -85,17 +85,54 @@ INSERT INTO Title
 	select replace(first_name,'a','A') from org.worker;
 -- Q-10. Write an SQL query to print the FIRST_NAME and LAST_NAME from Worker table into a single column COMPLETE_NAME. A space char should separate them.
 	select concat(first_name,' ', last_name) as FullName from org.worker;
+-- Q-11. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending.
+	select first_name from Worker order by first_name asc;
+-- Q-12. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending 
+-- and DEPARTMENT Descending.
+	select * from worker order by first_name asc, DEPARTMENT desc;
+-- Q-13. Write an SQL query to print details for Workers with the first name as “Vipul” and “Satish” from Worker table.
+	select * from Worker where first_name in ('Satish','Vipul');
+-- Q-14. Write an SQL query to print details of workers excluding first names, “Vipul” and “Satish” from Worker table.
+	select * from Worker where first_name not in ('Satish','Vipul');
+-- Q-15. Write an SQL query to print details of Workers with DEPARTMENT name as “Admin”.
+	Select * from Worker where DEPARTMENT like 'Admin%';
+-- Q-16. Write an SQL query to print details of the Workers whose FIRST_NAME contains ‘a’.
+	select * from worker where first_name like '%a%';
+-- Q-18. Write an SQL query to print details of the Workers whose FIRST_NAME ends with ‘h’ and contains six alphabets.
+	select * from worker where first_name like '_____h';
+-- Q-19. Write an SQL query to print details of the Workers whose SALARY lies between 100000 and 500000.
+	select * from worker where salary between 10000 and 500000;
+-- Q-20. Write an SQL query to print details of the Workers who have joined in Feb’2014.    
+    select * from worker where year(joining_date)=2014 and month(joining_date)=2;
+-- Q-21. Write an SQL query to fetch the count of employees working in the department ‘Admin’.
+	select DEPARTMENT, count(*) 'number of emp in Admin' from worker where DEPARTMENT='admin'group by DEPARTMENT;
+-- Q-23. Write an SQL query to fetch the no. of workers for each department in the descending order.
+	select DEPARTMENT, count(*) as min_to_max from worker  group by DEPARTMENT order by min_to_max;
+-- Write an SQL query to print details of the Workers who are also Managers.
+	select * from worker where WORKER_ID in (select WORKER_REF_ID from title where WORKER_TITLE='Manager');
+-- Write an SQL query to fetch duplicate records having matching data in some fields of a table.
+	select WORKER_TITLE, AFFECTED_FROM, count(*) from title group by WORKER_TITLE, AFFECTED_FROM having count(*)>1;
+-- Write an SQL query to show only odd rows from a table.
+	SELECT * FROM Worker WHERE MOD (WORKER_ID, 2) <> 0;
+-- Write an SQL query to show only even rows from a table.
+    SELECT * FROM Worker WHERE MOD (WORKER_ID, 2) = 0;
+-- Write an SQL query to clone a new table from another table.
+	CREATE TABLE WorkerClone
+    (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+	);
     
-
     
+    insert workerclone select * from worker; -- 1st way
+    create  table workercloneagain like worker; -- 2nd way
+    select  * from workercloneagain;
     
-    
-    
-    
-    
-    
-    
-    
+-- 
     
     
     
