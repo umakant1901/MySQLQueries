@@ -132,15 +132,58 @@ INSERT INTO Title
     create  table workercloneagain like worker; -- 2nd way
     select  * from workercloneagain;
     
--- 
+--  Write an SQL query to show the current date and time.
+	select curdate();
+    select curtime();
+    select now(); -- show date and time together
     
     
+-- Write an SQL query to show the top n (say 5) records of a table.
+    select * from worker limit 5;
+    select * from worker order by salary desc limit 5; -- top 5 salary;
     
+-- Write an SQL query to determine the nth (say n=5) highest salary from a table.
+	SELECT * FROM worker w1 where 4= (select count(distinct salary) from worker w2 where w2.salary>w1.salary);
+    -- SELECT Salary FROM Worker ORDER BY Salary DESC LIMIT n-1,1; ***** if there are all values are distinct
     
+-- Write an SQL query to fetch the list of employees with the same salary.
+	select * from worker where salary in (select salary from worker group by salary having count(salary)>1);
     
+-- Write an SQL query to show the second highest salary from a table.
+	select * from worker w1 where 1= (select count(distinct salary) from worker w2 where w2.salary>w1.salary);
+    select * from worker where salary in (select max(salary) from worker where salary not in (select max(salary) from worker));
     
+-- Write an SQL query to show one row twice in results from a table.
+	select FIRST_NAME, DEPARTMENT from worker W where W.DEPARTMENT='HR' 
+	union all 
+	select FIRST_NAME, DEPARTMENT from Worker W1 where W1.DEPARTMENT='HR';
     
+-- Write an SQL query to fetch the first 50% records from a table.
+	select * from worker where worker_id <= (select count(worker_id)/2 from worker);
     
+-- Write an SQL query to fetch the departments that have less than four people in it.
+    select department, count(*) from worker group by department having count(department)<4;
+
+-- Write an SQL query to show all departments along with the number of people in there.
+	select department , count(*) from worker group by department;
+
+-- Write an SQL query to show the last record from a table.
+	select * from worker where worker_id in (select max(worker_id) from worker);
+    
+-- Write an SQL query to fetch the last five records from a table.
+	select * from worker order by worker_id desc limit 0,5; -- 1st way
+    
+-- Write an SQL query to print the name of employees having the highest salary in each department.
+	select * from worker;
+    select department,count(department), max(salary) from worker
+    where salary in (select distinct(salary) from worker)
+    group by department;
+    
+-- Write an SQL query to fetch three max salaries from a table.
+	select * from worker order by salary desc limit 0,3;
+    
+-- Write an SQL query to fetch departments along with the total salaries paid for each of them.
+	select department , sum(salary) from worker group by department;
     
     
     
